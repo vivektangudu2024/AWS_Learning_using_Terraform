@@ -10,11 +10,11 @@ terraform {
 
 //Configuring a Provider
 provider "aws" {
-  region = "us-east-1"
-  shared_credentials_files = [pathexpand("~/.aws/credentials")]
+  region = "us-west-2"
   profile = "default"
 }
 
+data "aws_canonical_user_id" "current" {}
 //Creating a variable with canonical id in it
 variable "canonical_id" {
   type = string
@@ -24,13 +24,22 @@ variable "canonical_id" {
 // Creating S# bucket
 resource "aws_s3_bucket" "test_bucket" {
   bucket = "random1stbucket"
+  
+   
 }
 
+// to enable versioning
+resource "aws_s3_bucket_versioning" "test_bucket" {
+  bucket = aws_s3_bucket.test_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
 // To Upload File to S3 Bucket
 resource "aws_s3_object" "test_object" {
-  bucket = aws_s3_bucket.test_bucket.id  
+  bucket = aws_s3_bucket_versioning.test_bucket.id  
   key    = "Test_File"  
-  source = pathexpand("~/Videos/S3_Terraform/test_file.txt")  
+  source = pathexpand("./test_file.txt")  
 }
 
 //Creating Ownership controls
@@ -48,14 +57,14 @@ resource "aws_s3_bucket_acl" "test_bucket_acl" {
   access_control_policy {
     grant {
       grantee {
-        id   = var.canonical_id
+        id   = data.aws_canonical_user_id.current.id
         type = "CanonicalUser"
       }
       permission = "FULL_CONTROL"
     }
 
     owner {
-      id = var.canonical_id
+      id = data.aws_canonical_user_id.current.id
     }
   }
 }
