@@ -41,11 +41,12 @@ resource "aws_db_instance" "example_replica" {
   count                = 1
   engine               = aws_db_instance.example_rds.engine
   instance_class       = aws_db_instance.example_rds.instance_class
-  allocated_storage    = aws_db_instance.example_rds.allocated_storage
   identifier           = "${aws_db_instance.example_rds.identifier}-replica${count.index + 1}"
   skip_final_snapshot  = true
   // Enable read replicas for high availability
-  replicate_source_db = true
+  replicate_source_db = aws_db_instance.example_rds.identifier
+
+  
 
   tags = {
     Name = "Example RDS Replica ${count.index + 1}"
@@ -64,3 +65,4 @@ resource "aws_security_group" "example_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
