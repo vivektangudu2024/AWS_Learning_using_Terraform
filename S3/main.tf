@@ -14,27 +14,23 @@ provider "aws" {
   profile = "default"
 }
 
+//This gets the cannonical id of the user for permissions
 data "aws_canonical_user_id" "current" {}
-//Creating a variable with canonical id in it
-variable "canonical_id" {
-  type = string
-  description = "User Canonical ID"
-}
 
-// Creating S# bucket
+
+// Creating S3 bucket
 resource "aws_s3_bucket" "test_bucket" {
-  bucket = "random1stbucket"
-  
-   
+  bucket = "random1stbucket"  
 }
 
-// to enable versioning
+// To enable versioning
 resource "aws_s3_bucket_versioning" "test_bucket" {
   bucket = aws_s3_bucket.test_bucket.id
   versioning_configuration {
     status = "Enabled"
   }
 }
+
 // To Upload File to S3 Bucket
 resource "aws_s3_object" "test_object" {
   bucket = aws_s3_bucket_versioning.test_bucket.id  
