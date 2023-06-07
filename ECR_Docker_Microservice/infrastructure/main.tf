@@ -42,6 +42,7 @@ EOF
 
 
 resource "aws_instance" "ec2" {
+  depends_on = [ docker_registry_image.micro ]
   ami                    = "ami-0dc2d3e4c0f9ebd18"
   instance_type          = "t2.micro"
   iam_instance_profile   = aws_iam_instance_profile.profile.name
@@ -72,7 +73,7 @@ resource "aws_acm_certificate_validation" "cert_validation" {
   certificate_arn = aws_acm_certificate.ssl_certificate.arn
   #validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }
-*/
+
 resource "aws_elb" "main" {
   name               = "foobar-terraform-elb"
   availability_zones = ["us-east-1c"]
@@ -84,4 +85,4 @@ resource "aws_elb" "main" {
     lb_protocol       = "http"
    #ssl_certificate_id  = aws_acm_certificate.ssl_certificate.id
   }
-}
+}*/
