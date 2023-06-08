@@ -18,7 +18,11 @@ const setNoCache = (req, res, next) => {
 };
 
 //Connect to DB mongodb+srv://Vivek:<password>@login.pmby6rc.mongodb.net/?retryWrites=true&w=majority
-mongoose.connect("mongodb+srv://Vivek:Vivek@login.pmby6rc.mongodb.net/login?retryWrites=true&w=majority")
+// mongoose.connect("mongodb+srv://Vivek:Vivek@login.pmby6rc.mongodb.net/login?retryWrites=true&w=majority")
+// .catch((err)=>{
+//     console.log(err);
+// })
+mongoose.connect("mongodb://localhost:27017/usersDB")
 .catch((err)=>{
     console.log(err);
 })
