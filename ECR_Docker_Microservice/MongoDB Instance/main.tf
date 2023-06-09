@@ -13,9 +13,7 @@ provider "aws" {
 }
 
 //Variables
-variable "path_to_private_key" {
-  type = string
-}
+
 
 //Creating EC2 Instance
 resource "aws_instance" "mongoDB_instance" {
@@ -27,7 +25,7 @@ resource "aws_instance" "mongoDB_instance" {
   connection {
     type        = "ssh"
     user        = "ubuntu"
-    private_key = file(var.path_to_private_key)  # Replace with the path to your private key
+    private_key = file("my_private_key")  # Replace with the path to your private key
     host        = self.public_ip
   }
 
@@ -57,7 +55,7 @@ resource "aws_instance" "mongoDB_instance" {
 //Creating an AWS key pair
 resource "aws_key_pair" "my_private_key" {
   key_name   = "my_private_key" 
-  public_key = file("/home/shantanu/.ssh/my_private_key.pub")
+  public_key = file("my_private_key.pub")
 }
 
 
