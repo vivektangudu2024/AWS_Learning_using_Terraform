@@ -1,0 +1,1 @@
+path_to_private_key = "/home/shantanu/.ssh/my_private_key"
