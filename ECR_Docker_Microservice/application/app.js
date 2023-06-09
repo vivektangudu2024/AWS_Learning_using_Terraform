@@ -22,7 +22,7 @@ const setNoCache = (req, res, next) => {
 // .catch((err)=>{
 //     console.log(err);
 // })
-mongoose.connect("mongodb://localhost:27017/usersDB")
+mongoose.connect("mongodb://<public-ip-of-database-ec2>:27017/usersDB")
 .catch((err)=>{
     console.log(err);
 })
