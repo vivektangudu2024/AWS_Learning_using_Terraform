@@ -1,17 +1,6 @@
 
 
-# Define MongoDB Secret
-resource "kubernetes_secret" "mongodb_secret" {
-    depends_on = [ aws_eks_node_group.private-nodes ]
-  metadata {
-    name = "mongodb-secret"
-  }
 
-  data = {
-    username = base64encode("myusername")
-    password = base64encode("mypassword")
-  }
-}
 # Define MongoDB Deployment
 resource "kubernetes_deployment" "mongodb" {
     depends_on = [ aws_eks_node_group.private-nodes ]
